@@ -23,7 +23,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Update these paths and filenames to match your setup
-    data_dir = "/Users/vittorio/Desktop/FNO/output_directory"
+    data_dir = "/Users/vittorio/Desktop/FNO/all_output_less"
     train_file = "training_set.npz"
     test_file  = "test_set.npz"
 

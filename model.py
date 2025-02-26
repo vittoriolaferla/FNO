@@ -237,19 +237,19 @@ class CombinedLoss(nn.Module):
         """
         Approximate 3D Laplacian of scalar field p using torch.gradient.
         p: shape [batch, Nx, Ny, Nz]
-        Returns shape [batch, Nx, Ny, Nz] for \nabla^2 p.
+        Returns shape [batch, Nx, Ny, Nz] for ∇²p.
         """
-        # partial^2 wrt x
-        dpdx = torch.gradient(p, dim=1)    
-        dp2dx2 = torch.gradient(dpdx, dim=1)
 
-        # partial^2 wrt y
-        dpdy = torch.gradient(p, dim=2)
-        dp2dy2 = torch.gradient(dpdy, dim=2)
+        # First derivatives
+        dpdx = torch.gradient(p, dim=1)[0]
+        dpdy = torch.gradient(p, dim=2)[0]
+        dpdz = torch.gradient(p, dim=3)[0]
 
-        # partial^2 wrt z
-        dpdz = torch.gradient(p, dim=3)
-        dp2dz2 = torch.gradient(dpdz, dim=3)
+        # Second derivatives
+        dp2dx2 = torch.gradient(dpdx, dim=1)[0]
+        dp2dy2 = torch.gradient(dpdy, dim=2)[0]
+        dp2dz2 = torch.gradient(dpdz, dim=3)[0]
 
+        # Laplacian
         lap_p = dp2dx2 + dp2dy2 + dp2dz2
         return lap_p
